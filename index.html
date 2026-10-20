@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Shelfwise – Digital Product Marketplace</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@400;500;700&display=swap">
+<style>
+:root{--bg:#f7f3fa;--card:#fff;--tx:#1e1426;--mu:#6d6176;--pr:#3b1d4a;--prt:#fff;--ac:#f2a900;--bd:#e4d9ea;--ok:#1b8a4b;--bad:#b3261e;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#16101c;--card:#211829;--tx:#f3ecf7;--mu:#a999b3;--pr:#c9a0de;--prt:#1e1426;--bd:#382a44;--ok:#5fd58c;--bad:#ff8a80}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#16101c;--card:#211829;--tx:#f3ecf7;--mu:#a999b3;--pr:#c9a0de;--prt:#1e1426;--bd:#382a44;--ok:#5fd58c;--bad:#ff8a80}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 "DM Sans",system-ui,sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque","DM Sans",sans-serif;margin:0;line-height:1.15}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--bd)}
+.bar{max-width:1040px;margin:auto;padding:12px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.logo{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:22px;margin-right:auto;color:var(--pr)}
+.tab{border:0;background:none;padding:8px 12px;border-radius:99px;font-weight:500}
+.tab.on{background:var(--pr);color:var(--prt)}
+.cartbtn{border:1px solid var(--bd);background:var(--card);padding:8px 14px;border-radius:99px;font-weight:700}
+main{max-width:1040px;margin:auto;padding:20px 16px 48px}
+.hero{padding:28px 0 8px}
+.hero h1{font-size:clamp(30px,6vw,52px);font-weight:800;max-width:14ch}
+.hero p{color:var(--mu);max-width:48ch;margin:12px 0 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px;margin-top:22px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.cover{aspect-ratio:16/10;background-size:cover;background-position:center;display:flex;align-items:flex-end;padding:10px;color:#fff;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:22px;line-height:1.1}
+.cb{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.cb h3{font-size:17px}
+.by{color:var(--mu);font-size:13px}
+.price{font-weight:700;font-size:18px}.price s{color:var(--mu);font-weight:400;font-size:14px;margin:0 4px}.price em{color:var(--ok);font-style:normal;font-size:14px}
+.btn{border:1px solid var(--pr);background:var(--card);color:var(--pr);border-radius:10px;padding:10px 14px;font-weight:700;margin-top:auto}
+.btn.fill{background:var(--pr);color:var(--prt)}
+.btn:disabled{opacity:.55;cursor:default}
+.panel{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:18px;margin-top:18px}
+.panel h2{font-size:22px;margin-bottom:12px}
+label{display:block;font-weight:500;font-size:14px;margin:12px 0 4px}
+input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--bg)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.stat{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px}.stat b{display:block;font-family:"Bricolage Grotesque",sans-serif;font-size:26px}.stat span{color:var(--mu);font-size:13px}
+.li{display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--bd)}
+.li:first-of-type{border-top:0}.li .t{flex:1;min-width:0}.li .t b{display:block;overflow-wrap:anywhere}
+.th{width:56px;height:40px;border-radius:8px;background-size:cover;background-position:center;flex:none}
+.link{border:0;background:none;color:var(--bad);font-weight:500;padding:4px}
+.empty{color:var(--mu);padding:18px 0}
+.scrim{position:fixed;inset:0;background:rgba(20,10,28,.55);z-index:20;display:none;align-items:flex-end;justify-content:center}
+.scrim.open{display:flex}
+.sheet{background:var(--card);width:100%;max-width:520px;max-height:88vh;overflow:auto;border-radius:18px 18px 0 0;padding:18px 18px calc(18px + env(safe-area-inset-bottom,0px))}
+@media(min-width:600px){.scrim{align-items:center}.sheet{border-radius:18px}}
+.total{display:flex;justify-content:space-between;font-weight:700;font-size:18px;margin:14px 0}
+.pay{width:100%;padding:14px;font-size:17px;background:var(--pr);color:var(--prt);border:0;border-radius:12px;font-weight:700}
+.note{font-size:13px;color:var(--mu);margin-top:10px}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--pr);color:var(--prt);padding:10px 16px;border-radius:99px;z-index:30;display:none;font-weight:500}
+@media(max-width:520px){.row{grid-template-columns:1fr}.stats{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:no-preference){.sheet{animation:up .22s ease-out}@keyframes up{from{transform:translateY(24px);opacity:0}}}
+</style></head>
+<body>
+<header><div class="bar">
+<div class="logo">Shelfwise</div>
+<button class="tab" data-v="store">Store</button>
+<button class="tab" data-v="sell">Sell</button>
+<button class="tab" data-v="lib">My purchases</button>
+<button class="cartbtn" id="cartbtn">Cart (0)</button>
+</div></header>
+<main id="app"></main>
+<div class="scrim" id="scrim"><div class="sheet" id="sheet"></div></div>
+<div id="toast" role="status"></div>
+<script>
+/* ====== ADD YOUR PAYMENT DETAILS HERE ======
+   upi  : your UPI ID, e.g. "poojaverma@okaxis"  (customers pay this with the cart total)
+   name : name shown in the GPay / PhonePe screen
+   link : optional fallback payment link (Razorpay, GPay or PhonePe link) if you do not use a UPI ID
+   wa   : your WhatsApp number with country code, e.g. "919876543210" (for payment proof) */
+const PAY={upi:"yourname@okaxis",name:"Shelfwise",link:"",wa:""};
+const KEY="shelfwise_v1";
+const grads=["linear-gradient(135deg,#3b1d4a,#c2417a)","linear-gradient(135deg,#0f4c5c,#f2a900)","linear-gradient(135deg,#7a1f1f,#f08a24)","linear-gradient(135deg,#1d3557,#6a994e)"];
+const seed=[
+{id:"p1",title:"0 to 1000 Subscribers Roadmap",seller:"Aarav Studio",sid:"s0",price:0,mrp:0,file:"roadmap.pdf",img:"",g:0},
+{id:"p2",title:"1500+ Health Reels Bundle",seller:"Aarav Studio",sid:"s0",price:69,mrp:199,file:"health-reels.zip",img:"",g:1},
+{id:"p3",title:"1000+ Hindi Story Reels",seller:"Kahani Co",sid:"s1",price:97,mrp:399,file:"hindi-stories.zip",img:"",g:2},
+{id:"p4",title:"Canva Templates Pack",seller:"Kahani Co",sid:"s1",price:149,mrp:999,file:"canva-pack.zip",img:"",g:3}];
+let S={products:seed,cart:[],orders:[],seller:null,view:"store"};
+try{const r=localStorage.getItem(KEY);if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){toast("Storage is full. Try a smaller cover image.")}}
+const $=s=>document.querySelector(s);
+const esc=t=>String(t).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const inr=n=>"₹"+Number(n).toLocaleString("en-IN");
+function toast(m){const t=$("#toast");t.textContent=m;t.style.display="block";clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.display="none",2400)}
+function bg(p){return p.img?`background-image:url('${p.img}')`:`background-image:${grads[(p.g||0)%grads.length]}`}
+function priceHtml(p){if(!p.price)return'<div class="price">Free</div>';const off=p.mrp>p.price?Math.round((1-p.price/p.mrp)*100):0;return`<div class="price">${inr(p.price)}${off?`<s>${inr(p.mrp)}</s><em>${off}% off</em>`:""}</div>`}
+function owned(id){return S.orders.some(o=>o.items.some(i=>i.id===id))}
+function card(p){const inCart=S.cart.includes(p.id),own=owned(p.id);
+return`<article class="card"><div class="cover" style="${bg(p)}">${p.img?"":esc(p.title)}</div><div class="cb"><h3>${esc(p.title)}</h3><div class="by">by ${esc(p.seller)}</div>${priceHtml(p)}<button class="btn ${p.price?"":"fill"}" data-add="${p.id}" ${inCart||own?"disabled":""}>${own?"Purchased":inCart?"In cart":p.price?"Add to cart":"Get free"}</button></div></article>`}
+function view(){
+document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("on",b.dataset.v===S.view));
+$("#cartbtn").textContent=`Cart (${S.cart.length})`;
+const a=$("#app");
+if(S.view==="store")a.innerHTML=`<section class="hero"><h1>Digital products from independent creators</h1><p>Templates, bundles and guides. Pay once, download instantly.</p></section><div class="grid">${S.products.map(card).join("")||'<p class="empty">No products yet.</p>'}</div>`;
+else if(S.view==="lib"){const items=S.orders.flatMap(o=>o.items);a.innerHTML=`<div class="panel"><h2>My purchases</h2>${items.length?items.map(i=>`<div class="li"><div class="th" style="${bg(i)}"></div><div class="t"><b>${esc(i.title)}</b><span class="by">${esc(i.file)}</span></div><button class="btn fill" data-dl="${esc(i.file)}">Download</button></div>`).join(""):'<p class="empty">Nothing here yet. Buy or claim a product from the Store.</p>'}</div>`}
+else sellView(a);
+}
+function sellView(a){
+if(!S.seller){a.innerHTML=`<div class="panel"><h2>Open your store</h2><p class="by">Pick a store name. You can list products right after.</p><label for="sn">Store name</label><input id="sn" maxlength="40" placeholder="e.g. Pooja Digital"><button class="btn fill" id="mk" style="margin-top:14px">Create store</button></div>`;return}
+const mine=S.products.filter(p=>p.sid===S.seller.id);
+const sold=S.orders.flatMap(o=>o.items).filter(i=>i.sid===S.seller.id);
+const earn=sold.reduce((s,i)=>s+i.price,0);
+a.innerHTML=`<h2 style="margin-top:8px">${esc(S.seller.name)}</h2>
+<div class="stats"><div class="stat"><b>${mine.length}</b><span>Products listed</span></div><div class="stat"><b>${sold.length}</b><span>Sales</span></div><div class="stat"><b>${inr(earn)}</b><span>Earnings</span></div></div>
+<div class="panel"><h2>List a new product</h2>
+<label for="pt">Title</label><input id="pt" maxlength="70">
+<div class="row"><div><label for="pp">Selling price (₹, 0 for free)</label><input id="pp" type="number" min="0" value="99"></div><div><label for="pm">Original price (₹)</label><input id="pm" type="number" min="0" value="499"></div></div>
+<div class="row"><div><label for="pc">Cover image</label><input id="pc" type="file" accept="image/*"></div><div><label for="pf">Product file (delivered after payment)</label><input id="pf" type="file"></div></div>
+<label for="pl">Payment link for this product (optional)</label><input id="pl" placeholder="GPay, PhonePe, Razorpay or upi:// link"><button class="btn fill" id="pub" style="margin-top:16px">Publish product</button></div>
+<div class="panel"><h2>Your products</h2>${mine.length?mine.map(p=>`<div class="li"><div class="th" style="${bg(p)}"></div><div class="t"><b>${esc(p.title)}</b><span class="by">${p.price?inr(p.price):"Free"} · ${esc(p.file)}</span></div><button class="link" data-del="${p.id}">Remove</button></div>`).join(""):'<p class="empty">Add your first product above.</p>'}</div>`}
+function shrink(file){return new Promise(res=>{if(!file)return res("");const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const w=480,h=Math.round(im.height*w/im.width),c=document.createElement("canvas");c.width=w;c.height=h;c.getContext("2d").drawImage(im,0,0,w,h);res(c.toDataURL("image/jpeg",.7))};im.onerror=()=>res("");im.src=r.result};r.readAsDataURL(file)})}
+function cartSheet(){
+const items=S.cart.map(id=>S.products.find(p=>p.id===id)).filter(Boolean),tot=items.reduce((s,p)=>s+p.price,0);
+$("#sheet").innerHTML=`<h2>Your cart</h2>${items.length?items.map(p=>`<div class="li"><div class="th" style="${bg(p)}"></div><div class="t"><b>${esc(p.title)}</b><span class="by">${p.price?inr(p.price):"Free"}</span></div><button class="link" data-rm="${p.id}">Remove</button></div>`).join("")+`<div class="total"><span>Amount total</span><span>${inr(tot)}</span></div><label for="em">Email for your download link</label><input id="em" type="email" placeholder="you@example.com" autocomplete="email"><button class="pay" id="pay" style="margin-top:14px">${tot?"Make payment":"Get for free"}</button><div id="step2"></div><p class="note">${tot?"Make payment opens GPay, PhonePe or Paytm with the amount filled in.":""}</p>`:'<p class="empty">Your cart is empty.</p>'}<button class="btn" id="cl" style="width:100%;margin-top:12px">Close</button>`;
+$("#scrim").classList.add("open")}
+function upi(am,tn){return"upi://pay?pa="+encodeURIComponent(PAY.upi)+"&pn="+encodeURIComponent(PAY.name)+"&am="+am+"&cu=INR&tn="+encodeURIComponent(tn)}
+function payUrl(items,tot){const paid=items.filter(p=>p.price>0);
+if(paid.length===1&&paid[0].link)return paid[0].link;
+if(/^[\w.\-]+@\w+$/.test(PAY.upi)&&PAY.upi!=="yourname@okaxis")return upi(tot,"Order "+String(Date.now()).slice(-6));
+return PAY.link||""}
+function payStep(link,tot){
+if(/^upi:/i.test(link))location.href=link;else window.open(link,"_blank","noopener");
+const wa=PAY.wa?`<a class="note" style="display:block" target="_blank" rel="noopener" href="https://wa.me/${esc(PAY.wa)}?text=${encodeURIComponent("Hi, I paid "+inr(tot)+". Please confirm my order.")}">Send payment proof on WhatsApp</a>`:"";
+$("#step2").innerHTML=`<div class="panel" style="margin-top:14px"><b>Paid ${inr(tot)}?</b><label for="utr">Transaction ID (UTR, 12 digits)</label><input id="utr" inputmode="numeric" maxlength="12"><button class="pay" id="done" style="margin-top:12px">I’ve paid</button>${wa}</div>`;
+$("#pay").textContent="Open payment again"}
+function closeSheet(){$("#scrim").classList.remove("open")}
+document.addEventListener("click",async e=>{
+if(e.target.id==="scrim"){closeSheet();return}
+const t=e.target.closest("button");if(!t)return;
+if(t.dataset.v){S.view=t.dataset.v;save();view();window.scrollTo(0,0)}
+else if(t.id==="cartbtn")cartSheet();
+else if(t.id==="cl")closeSheet();
+else if(t.dataset.add){S.cart.push(t.dataset.add);save();view();toast("Added to cart")}
+else if(t.dataset.rm){S.cart=S.cart.filter(x=>x!==t.dataset.rm);save();view();cartSheet()}
+else if(t.dataset.dl)toast("Demo: "+t.dataset.dl+" would download here");
+else if(t.dataset.del){S.products=S.products.filter(p=>p.id!==t.dataset.del);S.cart=S.cart.filter(x=>x!==t.dataset.del);save();view()}
+else if(t.id==="mk"){const n=$("#sn").value.trim();if(!n)return toast("Enter a store name");S.seller={id:"s"+Date.now(),name:n};save();view()}
+else if(t.id==="pub"){const title=$("#pt").value.trim();if(!title)return toast("Add a title");const price=+$("#pp").value||0,mrp=+$("#pm").value||0,pf=$("#pf").files[0];if(!pf)return toast("Choose the product file to deliver");
+t.disabled=true;const img=await shrink($("#pc").files[0]);
+S.products.unshift({id:"p"+Date.now(),title,seller:S.seller.name,sid:S.seller.id,price,mrp:Math.max(mrp,price),file:pf.name,img,link:(v=>/^(https?|upi):\/\//i.test(v)?v:"")($("#pl").value.trim()),g:Math.floor(Math.random()*4)});save();view();toast("Published")}
+else if(t.id==="pay"||t.id==="done"){const em=$("#em").value.trim();if(!/^\S+@\S+\.\S+$/.test(em))return toast("Enter a valid email");
+const ics=S.cart.map(id=>S.products.find(p=>p.id===id)).filter(Boolean),tot=ics.reduce((s,p)=>s+p.price,0);
+if(t.id==="pay"&&tot){const link=payUrl(ics,tot);if(!link)return toast("Add your UPI ID or payment link in the PAY settings first");payStep(link,tot);return}
+if(t.id==="done"&&!/^\d{12}$/.test(($("#utr")||{}).value||""))return toast("Enter the 12-digit transaction ID");
+const items=S.cart.map(id=>S.products.find(p=>p.id===id)).filter(Boolean);
+S.orders.push({id:"o"+Date.now(),email:em,items:items.map(p=>({id:p.id,title:p.title,sid:p.sid,price:p.price,file:p.file,img:p.img,g:p.g})),at:Date.now()});S.cart=[];S.view="lib";save();closeSheet();view();toast("Order received. The seller will confirm your payment.")}
+});
+view();
+</script></body></html>
